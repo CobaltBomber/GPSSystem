@@ -10,9 +10,9 @@ public class MyGPS {
         In myIn = new In(args[0]);
 
         String myArray[] = myIn.readAllLines();
-        //String myData[] = new String[];
 
-        for (int i = 0; i < myArray.length, i++) {
+        for (int i = 0; i < myArray.length; i++) {
+
 
         }
 
