@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.IndexMinPQ;
+
 import java.util.ArrayList;
 
 public class MyGraph {
@@ -34,10 +36,50 @@ public class MyGraph {
         adjacent.get(edgeSource).add(myWeightedEdge);
     }
 
+    public static class Dijkstras {
+        private WeightedEdge[] edgeTo;
+        private double[] distanceTo;
+        private IndexMinPQ<Double> pq;
 
+        public Dijkstras(MyGraph weightedGraph, int source, int destination) {
+            edgeTo = new WeightedEdge[weightedGraph.numVertices];
+            distanceTo = new double[weightedGraph.numVertices];
+            pq = new IndexMinPQ<Double>(weightedGraph.numVertices);
+
+            for (int i = 0; i < weightedGraph.numVertices; i++) {
+                distanceTo[i] = Double.POSITIVE_INFINITY;
+            }
+            distanceTo[source] = 0.0;
+
+            pq.insert(source,0.0);
+
+            while (!pq.isEmpty()) {
+                int v = pq.delMin();
+                for (WeightedEdge e: weightedGraph.adjacent.get(v)) {
+                    int w = e.destination;
+
+                    if (distanceTo[w] > distanceTo[v] + e.weight) {
+                        distanceTo[w] = distanceTo[v] + e.weight;
+                        edgeTo[w] = e;
+                        if (pq.contains(w)) {
+                            pq.decreaseKey(w, distanceTo[w]);
+                        }
+                        else {
+                        pq.insert(w, distanceTo[w]);
+                        }
+                    }
+
+                }
+            }
+
+
+        }
+
+
+
+    }
 
     public static void main(String[] args) {
 
     }
 }
-
