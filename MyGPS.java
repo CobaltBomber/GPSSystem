@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 public class MyGPS {
@@ -13,7 +14,7 @@ public class MyGPS {
         //source, destination, weight
         for (int i = 0; i < myArray.length; i++) {
             if (myArray[i].charAt(0) == 'c') {
-               continue;
+                continue;
             }
 
             if (myArray[i].charAt(0) == 'p') {
@@ -30,11 +31,24 @@ public class MyGPS {
 
         }
 
-        StdOut.println("The current graph has vertices from 1 to 2500. \n");
-        StdOut.println("Would you like to:");
+        int userChoice = -1;
 
+        do {
 
+            StdOut.println("The current graph has vertices from 1 to 2500. ");
+            StdOut.println("Would you like to:");
+            StdOut.println("1. Find a new Route");
+            StdOut.println("2. Exit");
 
+            //Scanner myScanner = new Scanner(System.in);
+            userChoice = Integer.parseInt(StdIn.readLine());
+
+            if (userChoice != 1 && userChoice != 2) {
+                StdOut.println("ERROR - please choose either selection 1 or 2");
+                continue;
+            }
+
+        } while (userChoice != 2);
 
     }
 }
