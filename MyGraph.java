@@ -1,6 +1,7 @@
 import edu.princeton.cs.algs4.IndexMinPQ;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MyGraph {
 
@@ -37,12 +38,12 @@ public class MyGraph {
     }
 
     public static class Dijkstras {
-        private WeightedEdge[] edgeTo;
+        private int edgeTo[];
         private double[] distanceTo;
         private IndexMinPQ<Double> pq;
 
         public Dijkstras(MyGraph weightedGraph, int source, int destination) {
-            edgeTo = new WeightedEdge[weightedGraph.numVertices];
+            edgeTo = new int[weightedGraph.numVertices];
             distanceTo = new double[weightedGraph.numVertices];
             pq = new IndexMinPQ<Double>(weightedGraph.numVertices);
 
@@ -60,21 +61,34 @@ public class MyGraph {
 
                     if (distanceTo[w] > distanceTo[v] + e.weight) {
                         distanceTo[w] = distanceTo[v] + e.weight;
-                        edgeTo[w] = e;
+                        edgeTo[w] = v;
                         if (pq.contains(w)) {
                             pq.decreaseKey(w, distanceTo[w]);
                         }
                         else {
-                        pq.insert(w, distanceTo[w]);
+                            pq.insert(w, distanceTo[w]);
                         }
                     }
 
                 }
             }
 
-
         }
 
+        public double getDistanceTo(int vertexDestination) {
+            return distanceTo[vertexDestination];
+        }
+
+        public LinkedList<Integer> path(int source, int destination) {
+            LinkedList<Integer> myPath = new LinkedList<>();
+            myPath.add(destination);
+            int currentNode = destination;
+            while (currentNode != source) {
+                currentNode = edgeTo[currentNode];
+                myPath.addFirst(currentNode);
+            }
+            return myPath;
+        }
 
 
     }

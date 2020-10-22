@@ -2,6 +2,8 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.LinkedList;
+
 public class MyGPS {
 
     public static void main(String[] args) {
@@ -19,7 +21,7 @@ public class MyGPS {
 
             if (myArray[i].charAt(0) == 'p') {
                 String[] tempArray = myArray[i].split(" ");
-                graph = new MyGraph(Integer.parseInt(tempArray[2]));
+                graph = new MyGraph(Integer.parseInt(tempArray[2]) + 1);
             }
 
             if (myArray[i].charAt(0) == 'a') {
@@ -28,10 +30,11 @@ public class MyGPS {
                               Integer.parseInt(tempArray[3]));
             }
 
-
         }
 
         int userChoice = -1;
+        int sourceVertex = -1;
+        int destination = -1;
 
         do {
 
@@ -46,6 +49,31 @@ public class MyGPS {
             if (userChoice != 1 && userChoice != 2) {
                 StdOut.println("ERROR - please choose either selection 1 or 2");
                 continue;
+            }
+
+            if (userChoice == 1) {
+                StdOut.println("Please enter your source vertex: ");
+                sourceVertex = Integer.parseInt(StdIn.readLine());
+                StdOut.println("Please enter your destination: ");
+                destination = Integer.parseInt(StdIn.readLine());
+
+                long startTime = System.nanoTime();
+                MyGraph.Dijkstras calculation = new MyGraph.Dijkstras(graph, sourceVertex, destination);
+                LinkedList<Integer> path = calculation.path(sourceVertex, destination);
+                double elapsedTime = (System.nanoTime() - startTime) / 1000000000.0;
+
+
+                StdOut.println("Shortest Path from " + sourceVertex + " to " + destination + ":");
+                StdOut.print(path.get(0));
+
+                for (int i = 1; i < path.size(); i++) {
+                    StdOut.print(" -> ");
+                    StdOut.print(path.get(i));
+                }
+                StdOut.println();
+                StdOut.println("Total Distance: " + calculation.getDistanceTo(destination));
+                StdOut.println("Time to find: " + elapsedTime);
+
             }
 
         } while (userChoice != 2);
